@@ -1,0 +1,36 @@
+﻿@page
+@model ClienteModel
+@{
+    ViewData["Title"] = "Clientes";
+}
+
+<h1>Clientes</h1>
+
+<p>
+    <a asp-page="Create">Criar Novo Cliente</a>
+</p>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Nome</th>
+            <th>Email</th>
+            <th>Logotipo</th>
+            <th>Opções</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var cliente in Model.Clientes)
+        {
+            <tr>
+                <td>@cliente.Nome</td>
+                <td>@cliente.Email</td>
+                <td><img src="@cliente.Logotipo" alt="Logotipo" width="50" height="50" /></td>
+                <td>
+                    <a asp-page="Edit" asp-route-id="@cliente.ClienteID">Editar</a> |
+                    <a asp-page="Delete" asp-route-id="@cliente.ClienteID">Excluir</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
