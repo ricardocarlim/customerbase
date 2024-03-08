@@ -5,9 +5,9 @@ namespace api.Domain.Services.Communication
     public class ClienteResponse: BaseResponse
     {
         public Cliente Cliente { get; private set; }
-        private ClienteResponse(bool success, string message, Cliente category) : base(success, message)
+        private ClienteResponse(bool success, string message, Cliente cliente) : base(success, message)
         {
-            Cliente = category;
+            Cliente = cliente;
         }
       
         public ClienteResponse(Cliente cliente) : this(true, string.Empty, cliente)

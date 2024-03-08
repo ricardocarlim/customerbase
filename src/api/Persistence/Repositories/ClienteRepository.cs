@@ -1,4 +1,5 @@
 ﻿using api.Domain.Models;
+using api.Domain.Models.Queries;
 using api.Domain.Repositories;
 using api.Models;
 using api.Models.Filters;
@@ -21,11 +22,28 @@ namespace api.Persistence.Repositories
         public async Task<Cliente> FindByIdAsync(int id)
         {
             return await _context.Clientes.FindAsync(id);
-        }
+        }     
 
-        public async Task<IEnumerable<Cliente>> Get([FromQuery] ClienteFilter filter)
+        public async Task<QueryResult<Cliente>> ListAsync(ClientesQuery query)
         {
-            return await _context.Clientes.ToListAsync();
+            IQueryable<Cliente> queryable = _context.Clientes
+                                                   .Include(p => p.Logradouros)
+                                                   .AsNoTracking();            
+            if (!string.IsNullOrEmpty(query.Email))
+            {
+                queryable = queryable.Where(p => p.Email == query.Email);
+            }
+            
+            int totalItems = await queryable.CountAsync();
+            
+            List<Cliente> clientes = await queryable.Skip((query.Page - 1) * query.ItemsPerPage)
+                                                    .Take(query.ItemsPerPage)
+                                                    .ToListAsync();            
+            return new QueryResult<Cliente>
+            {
+                Items = clientes,
+                TotalItems = totalItems,
+            };
         }
 
         public void Remove(Cliente cliente)

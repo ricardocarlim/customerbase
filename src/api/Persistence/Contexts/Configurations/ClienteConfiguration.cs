@@ -14,7 +14,9 @@ namespace api.Persistence.Contexts.Configurations
             builder.Property(p => p.Nome).IsRequired().HasMaxLength(100);
             builder.Property(p => p.Logotipo).IsRequired();
             builder.Property(p => p.Email).IsRequired().HasMaxLength(100);
-            builder.HasMany(p => p.Logradouros).WithOne(p => p.Cliente).HasForeignKey(p => p.ClienteId);
+            builder.HasMany(c => c.Logradouros)
+            .WithOne(l => l.Cliente)
+            .HasForeignKey(l => l.ClienteId);
         }
     }
 }

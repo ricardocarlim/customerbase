@@ -1,11 +1,14 @@
 ﻿using api.Domain.Models;
+using api.Domain.Models.Queries;
 using api.Domain.Repositories;
 using api.Domain.Services;
 using api.Domain.Services.Communication;
+using api.Infraestructure;
 using api.Models;
 using api.Models.Filters;
 using api.Persistence.Repositories;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Caching.Memory;
 using System.Net;
 
 namespace api.Services
@@ -14,10 +17,18 @@ namespace api.Services
     {
         private readonly IClienteRepository _clienteRepository;
         private readonly IUnitOfWork _unitOfWork;
-        public ClienteService(IClienteRepository clienteRepository, IUnitOfWork unitOfWork)
+        private readonly IMemoryCache _cache;
+        private readonly ILogger<ClienteService> _logger;
+        public ClienteService(
+            IClienteRepository clienteRepository, 
+            IUnitOfWork unitOfWork, 
+            IMemoryCache cache, 
+            ILogger<ClienteService> logger)
         {            
             _clienteRepository = clienteRepository;
             _unitOfWork = unitOfWork;
+            _cache = cache;
+            _logger = logger;
         }
 
         public async Task<ClienteResponse> DeleteAsync(int id)
@@ -39,11 +50,22 @@ namespace api.Services
                 return new ClienteResponse($"An error occurred when deleting the cliente: {ex.Message}");
             }
         }
-
-        public Task<IEnumerable<Cliente>> Get([FromQuery] ClienteFilter filter)
+       
+        public async Task<QueryResult<Cliente>> ListAsync(ClientesQuery query)
         {
-            return _clienteRepository.Get(filter);
+            string cacheKey = GetCacheKeyForClientesQuery(query);
+
+            var clientes = await _cache.GetOrCreateAsync(cacheKey, (entry) =>
+            {
+                entry.AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(1);
+                return _clienteRepository.ListAsync(query);
+            });
+
+            return clientes!;
         }
+
+        private static string GetCacheKeyForClientesQuery(ClientesQuery query)
+            => $"{CacheKeys.ClientesList}_{query.Nome}_{query.Page}_{query.ItemsPerPage}";
 
         public async Task<ClienteResponse> SaveAsync(Cliente cliente)
         {

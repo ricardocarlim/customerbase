@@ -1,14 +1,20 @@
 ﻿using api.Domain.Models;
+using api.Domain.Models.Queries;
 using api.Domain.Services;
 using api.Extensions;
 using api.Models.Filters;
 using api.Resources;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using System.Net;
+using System.Net.Http.Json;
+using System.Text.Json.Serialization;
 
 namespace api.Controllers
 {
+    [DisableRequestSizeLimit]
+    [Route("api/[controller]")]
     public class ClienteController : Controller
     {
         private readonly IClienteService _clienteService;
@@ -20,15 +26,19 @@ namespace api.Controllers
             _mapper = mapper;
         }
              
-        [HttpGet("")]
-        public async Task<IEnumerable<ClienteResource>> Get([FromQuery] ClienteFilter filter)
+        [HttpGet]
+        [ProducesResponseType(typeof(QueryResultResource<ClienteResource>), 200)]
+        public async Task<QueryResultResource<ClienteResource>> Get([FromQuery] ClientesQueryResource query)
         {
-            var clientes = await _clienteService.Get(filter);
-            var resources = _mapper.Map<IEnumerable<Cliente>, IEnumerable<ClienteResource>>(clientes);
-            return resources;
+            var clientesQuery = _mapper.Map<ClientesQuery>(query);
+            var queryResult = await _clienteService.ListAsync(clientesQuery);
+
+            return _mapper.Map<QueryResultResource<ClienteResource>>(queryResult);
         }
 
-        [HttpPost("")]
+        [HttpPost]
+        [ProducesResponseType(typeof(ClienteResource), 201)]
+        [ProducesResponseType(typeof(ErrorResource), 400)]
         public async Task<IActionResult> Post([FromBody] SaveClienteResource resource)
         {
             if (!ModelState.IsValid)
@@ -46,6 +56,8 @@ namespace api.Controllers
         }
 
         [HttpPut("{id}")]
+        [ProducesResponseType(typeof(ClienteResource), 201)]
+        [ProducesResponseType(typeof(ErrorResource), 400)]
         public async Task<IActionResult> PutAsync(int id, [FromBody] SaveClienteResource resource)
         {
             if (!ModelState.IsValid)
@@ -62,6 +74,8 @@ namespace api.Controllers
         }
 
         [HttpDelete("{id}")]
+        [ProducesResponseType(typeof(ClienteResource), 200)]
+        [ProducesResponseType(typeof(ErrorResource), 400)]
         public async Task<IActionResult> DeleteAsync(int id)
         {
             var result = await _clienteService.DeleteAsync(id);

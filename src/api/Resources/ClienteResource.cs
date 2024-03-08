@@ -4,8 +4,10 @@ namespace api.Resources
 {
     public class ClienteResource
     {
-        public int ClienteId { get; set; }
+        public int Id { get; set; }
         public string Nome { get; set; }
-        public List<Logradouro> Logradouros { get; set; }
+        public string Email { get; set; }
+        public string Logotipo {  get; set; }
+        public List<LogradouroResource> Logradouros { get; set; }
     }
 }

@@ -10,6 +10,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 
 var builder = WebApplication.CreateBuilder(args);
+builder.Services.AddMemoryCache();
 builder.Services.AddAutoMapper(typeof(Program));
 // Add services to the container.
 builder.Services.AddControllers();
@@ -22,9 +23,13 @@ builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseInMemoryDatabase("connectionString");
 });
 
-builder.Services.AddScoped<IClienteRepository, ClienteRepository>();
-builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<IClienteService, ClienteService>();
+builder.Services.AddScoped<ILogradouroService, LogradouroService>();
+
+builder.Services.AddScoped<IClienteRepository, ClienteRepository>();
+builder.Services.AddScoped<ILogradouroRepository, LogradouroRepository>();
+
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
 var app = builder.Build();
 

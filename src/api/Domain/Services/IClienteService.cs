@@ -1,4 +1,5 @@
 ﻿using api.Domain.Models;
+using api.Domain.Models.Queries;
 using api.Domain.Services.Communication;
 using api.Models;
 using api.Models.Filters;
@@ -9,7 +10,7 @@ namespace api.Domain.Services
 {
     public interface IClienteService
     {
-        Task<IEnumerable<Cliente>> Get([FromQuery] ClienteFilter filter);
+        Task<QueryResult<Cliente>> ListAsync(ClientesQuery query);
         Task<ClienteResponse> SaveAsync(Cliente cliente);
         Task<ClienteResponse> UpdateAsync(int id, Cliente cliente);
         Task<ClienteResponse> DeleteAsync(int id);
