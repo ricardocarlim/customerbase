@@ -25,7 +25,7 @@ namespace api.Controllers
             _clienteService = clienteService;
             _mapper = mapper;
         }
-             
+
         [HttpGet]
         [ProducesResponseType(typeof(QueryResultResource<ClienteResource>), 200)]
         public async Task<QueryResultResource<ClienteResource>> Get([FromQuery] ClientesQueryResource query)
@@ -34,6 +34,14 @@ namespace api.Controllers
             var queryResult = await _clienteService.ListAsync(clientesQuery);
 
             return _mapper.Map<QueryResultResource<ClienteResource>>(queryResult);
+        }
+
+        [HttpGet("{id}")]
+        [ProducesResponseType(typeof(ClienteResource), 200)]
+        public async Task<ClienteResource> GetById(int id)
+        {
+            var result = await _clienteService.ListByIdAsync(id);
+            return _mapper.Map<Cliente, ClienteResource>(result);
         }
 
         [HttpPost]

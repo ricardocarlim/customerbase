@@ -1,7 +1,14 @@
+using app.Services;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorPages();
+builder.Services.AddHttpClient<IApiCliente, ApiCliente>(cliente => {});   
+builder.Services.AddHttpClient<IApiLogradouro, ApiLogradouro>(logradouro =>{});
+
+builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+builder.Services.AddScoped<IApiCliente, ApiCliente>();
 
 var app = builder.Build();
 

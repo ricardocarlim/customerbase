@@ -10,6 +10,7 @@ using api.Persistence.Repositories;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Memory;
 using System.Net;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace api.Services
 {    
@@ -104,6 +105,11 @@ namespace api.Services
                 // Do some logging stuff
                 return new ClienteResponse($"An error occurred when updating the Cliente: {ex.Message}");
             }
+        }
+
+        public Task<Cliente> ListByIdAsync(int Id)
+        {
+            return _clienteRepository.FindByIdAsync(Id);            
         }
     }
 }

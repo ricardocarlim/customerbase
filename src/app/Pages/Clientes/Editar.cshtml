@@ -1,0 +1,20 @@
+﻿@page "{id:int}"
+@model EditarModel
+@{
+    ViewData["Title"] = "Editar Cliente";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<form method="post">
+    <div class="form-group">
+        <label asp-for="Cliente.nome"></label>
+        <input asp-for="Cliente.nome" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="Cliente.email"></label>
+        <input asp-for="Cliente.email" class="form-control" />
+    </div>
+
+    <button type="submit" class="btn btn-primary">Salvar</button>
+</form>

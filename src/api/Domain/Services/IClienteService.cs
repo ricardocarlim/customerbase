@@ -11,6 +11,7 @@ namespace api.Domain.Services
     public interface IClienteService
     {
         Task<QueryResult<Cliente>> ListAsync(ClientesQuery query);
+        Task<Cliente> ListByIdAsync(int Id);
         Task<ClienteResponse> SaveAsync(Cliente cliente);
         Task<ClienteResponse> UpdateAsync(int id, Cliente cliente);
         Task<ClienteResponse> DeleteAsync(int id);
