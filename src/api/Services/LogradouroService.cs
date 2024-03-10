@@ -29,7 +29,7 @@ namespace api.Services
 
             try
             {
-                _logradouroRepository.Remove(logradouroExistente);
+                await _logradouroRepository.Remove(logradouroExistente);
                 await _unitOfWork.CompleteAsync();
 
                 return new LogradouroResponse(logradouroExistente);

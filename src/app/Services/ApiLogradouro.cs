@@ -1,4 +1,5 @@
 ﻿using app.Resources;
+using System.Text;
 
 namespace app.Services
 {
@@ -13,10 +14,12 @@ namespace app.Services
     {
         private readonly HttpClient _httpClient;
         private const string BaseUrl = "https://localhost:7177/api";
+        string credentials = Convert.ToBase64String(Encoding.ASCII.GetBytes($"admin:Pa$$WoRd"));
 
         public ApiLogradouro(HttpClient httpClient)
         {
             _httpClient = httpClient;
+            _httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Basic", credentials);
         }
         
         public async Task CreateLogradouroAsync(LogradouroResource Logradouro)

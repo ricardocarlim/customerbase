@@ -10,7 +10,7 @@ namespace api.Domain.Repositories
     {
         Task AddAsync(Logradouro cliente);
         Task<Logradouro> FindByIdAsync(int id);
-        void Update(Logradouro cliente);
-        void Remove(Logradouro cliente);
+        Task Update(Logradouro cliente);
+        Task Remove(Logradouro cliente);
     }
 }

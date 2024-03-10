@@ -14,12 +14,12 @@ namespace app.Pages.Logradouro
 
         [BindProperty]
         public LogradouroResource Logradouro{ get; set; }
-        public async Task<IActionResult> OnGetAsync([FromQuery]int? id, string? endereco, int idCliente)
+        public async Task<IActionResult> OnGetAsync([FromQuery]int? id, string? endereco, int ClienteId)
         {
             Logradouro = new LogradouroResource();
             Logradouro.id = id.Value;                                  
             Logradouro.endereco = endereco;
-            Logradouro.idCliente = idCliente;
+            Logradouro.ClienteId = ClienteId;
 
             return Page();
         }
@@ -31,12 +31,12 @@ namespace app.Pages.Logradouro
                 return Page();
             }
 
-            if (Logradouro.id == null || Logradouro.id <= 0)
-            {
-                await _apiLogradouro.CreateLogradouroAsync(Logradouro);
-            }
+            if (Logradouro.id == null || Logradouro.id <= 0)            
+                await _apiLogradouro.CreateLogradouroAsync(Logradouro);            
+            else
+                await _apiLogradouro.UpdateLogradouroAsync(Logradouro.id, Logradouro);
 
-            return RedirectToPage("Cliente/Editar/"+Logradouro.idCliente);
+            return RedirectToPage("/Clientes/Editar", new { id = Logradouro.ClienteId });
         }
     }
 }

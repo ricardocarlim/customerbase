@@ -4,13 +4,16 @@ using api.Extensions;
 using api.Resources;
 using api.Services;
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace api.Controllers
 {
     [DisableRequestSizeLimit]
     [Route("api/[controller]")]
-    public class LogradouroController : Controller
+    [ApiController]
+    [Authorize]
+    public class LogradouroController : ControllerBase
     {
         private readonly IMapper _mapper;
         private readonly ILogradouroService _logradouroService;

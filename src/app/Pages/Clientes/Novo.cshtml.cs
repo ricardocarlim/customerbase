@@ -1,6 +1,7 @@
 using app.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using System.Reflection;
 
 namespace app.Pages.Clientes
 {
@@ -23,14 +24,24 @@ namespace app.Pages.Clientes
 
         public async Task<IActionResult> OnPostAsync()
         {
-            if (!ModelState.IsValid)
+            if (!ModelState.IsValid)            
+                return Page();            
+
+            if (Cliente.imagem != null && Cliente.imagem.Length > 0)            
+                Cliente.logotipo = Helper.Image.ConverterParaBase64(Cliente.imagem);            
+
+            var response = await _apiClient.CreateClienteAsync(Cliente);
+
+            if (!response.IsSuccessStatusCode)
             {
+                var errorMessage = await response.Content.ReadAsStringAsync();
+                ModelState.Clear();
+                ModelState.AddModelError(string.Empty, errorMessage);
                 return Page();
             }
 
-            await _apiClient.CreateClienteAsync(Cliente);
-
             return RedirectToPage("./Index");
-        }
+            
+        }      
     }
 }

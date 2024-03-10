@@ -5,6 +5,7 @@ using api.Extensions;
 using api.Models.Filters;
 using api.Resources;
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using System.Net;
@@ -15,7 +16,9 @@ namespace api.Controllers
 {
     [DisableRequestSizeLimit]
     [Route("api/[controller]")]
-    public class ClienteController : Controller
+    [ApiController]
+    [Authorize]
+    public class ClienteController : ControllerBase
     {
         private readonly IClienteService _clienteService;
         private readonly IMapper _mapper;

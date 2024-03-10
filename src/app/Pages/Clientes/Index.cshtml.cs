@@ -20,5 +20,12 @@ namespace app.Pages.Clientes
         {
             Clientes = await _apiClient.GetClientesAsync();
         }
+
+        public IActionResult OnGetExcluir(int id)
+        {
+            var cliente = _apiClient.DeleteClienteAsync(id);
+            
+            return RedirectToPage();
+        }
     }
 }

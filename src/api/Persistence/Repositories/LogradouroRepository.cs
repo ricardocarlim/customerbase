@@ -23,12 +23,12 @@ namespace api.Persistence.Repositories
             return await _context.Logradouros.FindAsync(id);
         }      
 
-        public void Remove(Logradouro logradouro)
+        public async Task Remove(Logradouro logradouro)
         {
             _context.Logradouros.Remove(logradouro);
         }
 
-        public void Update(Logradouro logradouro)
+        public async Task Update(Logradouro logradouro)
         {
             _context.Logradouros.Update(logradouro);
         }

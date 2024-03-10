@@ -12,6 +12,7 @@ namespace api.Domain.Repositories
         Task<QueryResult<Cliente>> ListAsync(ClientesQuery query);
         Task AddAsync(Cliente cliente);
         Task<Cliente> FindByIdAsync(int id);
+        Task<Cliente> FindByEmailAsync(string email);
         void Update(Cliente cliente);
         void Remove(Cliente cliente);
     }

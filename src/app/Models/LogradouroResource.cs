@@ -9,6 +9,6 @@ public class LogradouroResource
 {
     public int id { get; set; }    
     public string endereco { get; set; }   
-    public int idCliente { get; set; }
+    public int ClienteId { get; set; }
     
 }

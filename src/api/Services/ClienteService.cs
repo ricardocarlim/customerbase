@@ -72,6 +72,11 @@ namespace api.Services
         {
             try
             {
+                var clienteExistente = await _clienteRepository.FindByEmailAsync(cliente.Email);
+
+                if (clienteExistente != null)
+                    return new ClienteResponse($"Já existe um cliente com o e-mail informado. Por favor altere o e-mail.");
+
                 await _clienteRepository.AddAsync(cliente);
                 await _unitOfWork.CompleteAsync();
 
@@ -91,7 +96,14 @@ namespace api.Services
             if (clienteExistente == null)
                 return new ClienteResponse("Cliente não encontrado.");
 
+            var clienteemail = await _clienteRepository.FindByEmailAsync(cliente.Email);
+
+            if (clienteemail != null && id != clienteemail.Id)
+                return new ClienteResponse($"Já existe um cliente com o e-mail informado. Por favor altere o e-mail.");
+
             clienteExistente.Nome = cliente.Nome;
+            clienteExistente.Email = cliente.Email;
+            clienteExistente.Logotipo = cliente.Logotipo;
 
             try
             {

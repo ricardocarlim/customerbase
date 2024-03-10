@@ -19,6 +19,13 @@ namespace api.Persistence.Repositories
             await _context.Clientes.AddAsync(cliente);
         }
 
+        public async Task<Cliente> FindByEmailAsync(string email)
+        {
+            return await _context.Clientes                           
+                           .Where(p => p.Email == email)
+                           .FirstOrDefaultAsync();
+        }
+
         public async Task<Cliente> FindByIdAsync(int id)
         {
             return await _context.Clientes
