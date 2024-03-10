@@ -15,6 +15,37 @@
         <label asp-for="Cliente.email"></label>
         <input asp-for="Cliente.email" class="form-control" />
     </div>
-
+    
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Logradouros</th>
+                <th></th>
+                <th></th>
+            </tr>           
+        </thead>
+        <tbody>
+            <tr>
+                <td>
+                    <a href="./Logradouro/Editar?id=0&idCliente=@Model.Cliente.id&endereco=''">Novo Logradouro</a>
+                </td>
+                <td></td>
+                <td></td>
+            </tr>
+            @foreach (var logradouro in Model.Cliente.logradouros)
+            {
+                <tr>
+                    <td>
+                        <p>@logradouro.endereco</p>
+                    </td>
+                    <td>
+                    <td>
+                        <a href="Logradouro/Editar?id=@logradouro.id&idCliente=@Model.Cliente.id&endereco=@Uri.EscapeDataString(logradouro.endereco)">Editar</a> |
+                        <a asp-page-handler="Excluir" asp-route-id="@logradouro.id">Excluir</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
     <button type="submit" class="btn btn-primary">Salvar</button>
 </form>

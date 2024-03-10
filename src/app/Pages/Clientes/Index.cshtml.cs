@@ -7,9 +7,9 @@ namespace app.Pages.Clientes
 {
     public class IndexModel : PageModel
     {
-        private readonly ApiCliente _apiClient;
+        private readonly IApiCliente _apiClient;
 
-        public IndexModel(ApiCliente apiClient)
+        public IndexModel(IApiCliente apiClient)
         {
             _apiClient = apiClient;
         }

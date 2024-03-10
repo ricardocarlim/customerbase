@@ -8,6 +8,7 @@ public class LogradouroModel
 public class LogradouroResource
 {
     public int id { get; set; }    
-    public string endereco { get; set; }    
+    public string endereco { get; set; }   
+    public int idCliente { get; set; }
     
 }

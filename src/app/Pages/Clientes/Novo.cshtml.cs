@@ -6,9 +6,9 @@ namespace app.Pages.Clientes
 {
     public class NovoModel : PageModel
     {
-        private readonly ApiCliente _apiClient;
+        private readonly IApiCliente _apiClient;
 
-        public NovoModel(ApiCliente apiClient)
+        public NovoModel(IApiCliente apiClient)
         {
             _apiClient = apiClient;
         }

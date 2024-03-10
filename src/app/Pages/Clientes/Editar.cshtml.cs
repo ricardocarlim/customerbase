@@ -6,9 +6,9 @@ namespace app.Pages.Clientes
 {
     public class EditarModel : PageModel
     {
-        private readonly ApiCliente _apiClient;
+        private readonly IApiCliente _apiClient;
 
-        public EditarModel(ApiCliente apiClient)
+        public EditarModel(IApiCliente apiClient)
         {
             _apiClient = apiClient;
         }

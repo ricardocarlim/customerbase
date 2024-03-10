@@ -21,7 +21,11 @@ namespace api.Persistence.Repositories
 
         public async Task<Cliente> FindByIdAsync(int id)
         {
-            return await _context.Clientes.FindAsync(id);
+            return await _context.Clientes
+                            .Include(p => p.Logradouros)
+                            .Where(p => p.Id == id)
+                            .FirstOrDefaultAsync();
+                            
         }     
 
         public async Task<QueryResult<Cliente>> ListAsync(ClientesQuery query)
