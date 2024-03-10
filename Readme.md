@@ -1,4 +1,6 @@
-Padrões Utilizados
+Seguir sempre os padrões e frameworks utilizados.
+
+Padrões utilizados
 
 Repository Pattern
 O padrão Repository é utilizado para gerenciar os dados do banco de dados. Definimos classes de repositório que encapsulam toda lógica para lidar com o acesso aos dados. Essas classes expõem métodos para listar, adicionar, alterar e excluir objetos de um determinado modelo, isolando o acesso ao banco de dados do restante da aplicação.
@@ -21,7 +23,9 @@ Entity Framework
 O Entity Framework (EF) é um framework de mapeamento objeto-relacional (ORM) desenvolvido pela Microsoft. Ele permite que os desenvolvedores trabalhem com dados em um banco de dados relacional usando objetos específicos do domínio da aplicação. O EF elimina a necessidade de escrever código SQL repetitivo e complexo, proporcionando uma experiência de desenvolvimento mais produtiva e segura.
 
 Para rodar o projeto, basta abrir com o visual studio e rodá-lo.
-
+Levar em consideração que o logotipo sempre é salvo como base64 em campo de texto do banco de dados para evitar aumentar o tamanho. A decisão é devido a falta de um 
+blobstorage que nos forneça uma url para upload da imagem.
+Sempre respeitar os padrões e acoplamentos da estrutura.
 
 
 
